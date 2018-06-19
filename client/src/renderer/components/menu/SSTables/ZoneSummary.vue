@@ -30,9 +30,9 @@ export default {
   methods: {
     fill () {
       let textSize = 25
-      if (innerWidth < 1300) {
-        textSize = 14
-      }
+      // if (innerWidth < 1300) {
+      //   textSize = 14
+      // }
       // console.log('ZONE SUMMARY FILL INITIATED')
       let x0Vals = [-80 / 3, -80 / 9, 80 / 9, -80 / 3, -80 / 9, 80 / 9]
       let x1Vals = [-80 / 9, 80 / 9, 80 / 3, -80 / 9, 80 / 9, 80 / 3]
@@ -107,6 +107,8 @@ export default {
     this.fill()
 
     this.layout = {
+      width: 800,
+      height: 450,
       paper_bgcolor: null,
       plot_bgcolor: 'rgba(0,0,0,0)',
       grid: {
@@ -173,8 +175,8 @@ export default {
     Plotly.plot('plotter', {
       data: [this.zoneText, this.zones],
       layout: this.layout
-    }
-      , {displayModeBar: false})
+    },
+    {staticPlot: true})
   }
 }
 </script>

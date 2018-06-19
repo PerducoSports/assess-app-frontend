@@ -18,11 +18,11 @@
     </v-flex>
     </v-layout>
     <v-layout row wrap>
-    <v-flex d-flex sm4>
+    <v-flex pa-3 xs-3>
       <h2 v-if="sessionStats !== null">By Route</h2>
       <ByRoute v-if="sessionStats !== null"/>
     </v-flex>
-     <v-flex d-flex sm8>
+     <v-flex pa-3 xs-3>
       <h2 v-if="sessionStats !== null">Target Summary</h2>
       <TargetSummary v-if="sessionStats !== null"/>
     </v-flex>

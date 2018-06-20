@@ -14,7 +14,7 @@
       <v-flex xs-3 pa-3>
         <h2>Ball Placement</h2>
          <BallPlacement class="elevation-2" v-if="releaseData.Sack === false && thrownAway === false"/>
-         <v-alert class="elevation-2" :value="releaseData.Sack" type="info">Sack occured</v-alert>
+         <v-alert class="elevation-2" :value="releaseData.Sack" type="info">Sack occurred</v-alert>
         <v-alert class="elevation-2" :value="thrownAway" type="info">Ball was thrown away</v-alert>
       </v-flex>
       <v-flex xs-3 pa-3>
@@ -76,7 +76,7 @@ export default {
         {metric: 'Depth', val: null},
         {metric: 'Time to Throw', val: null},
         {metric: 'Sacked', val: null},
-        {metric: 'Sacked Yardage', val: null},
+        {metric: 'Sack Yardage', val: null},
         {metric: 'Intentional Grounding', val: null}
       ],
       ballPlacement: null,

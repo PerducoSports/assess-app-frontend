@@ -98,15 +98,15 @@ export default {
         showline: false
       },
       yaxis: {
-        range: [-3, 3],
+        range: [-4, 4],
         fixedrange: true,
         showgrid: true,
         zeroline: false,
         showline: false
       },
       hovermode: 'closest',
-      width: 700,
-      height: 500,
+      width: 600,
+      height: 600,
       layer: 'below',
       shapes: [{
         // Green inner ring

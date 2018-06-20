@@ -89,7 +89,7 @@ export default {
         showlegend: false,
         yaxis: { showgrid: false, range: [0, 3], scaleanchor: 'x', scaleratio: 1, showticklabels: false },
         // yaxis2: { showgrid: false, rangemode: "tozero", scaleanchor: "x2", scaleratio: 1, showticklabels: false},
-        xaxis: { showgrid: false, zeroline: false, autorange: "reversed", scaleratio: 1 },
+        xaxis: { showgrid: false, zeroline: false, autorange: 'reversed', scaleratio: 1 },
         // xaxis2: { showgrid: false, zeroline: false, autorange: "reversed" },
         images: [{
           x: -data['Ball Placement Image'].rec.xmin,

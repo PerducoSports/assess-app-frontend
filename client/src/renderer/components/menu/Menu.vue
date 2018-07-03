@@ -102,34 +102,34 @@ export default {
     },
     XYDirection (raw, filename) {
       let parsed = JSON.parse(raw)
-      if (parsed.balltrackingdata['0'].simulated_ball.x !== undefined) {
+      if (parsed.mBallTrackingData['0'].ballLocation.x !== undefined) {
         let times = []
         let plist = []
         // initialize min and max
-        let miny = parsed.playsituation.los
-        let maxy = parsed.playsituation.los
+        let miny = parsed.mPlaySituation.los-50
+        let maxy = parsed.mPlaySituation.los-50
         // add sim times
-        for (let i of parsed['balltrackingdata']) {
-          times.push(i['sim_time'])
+        for (let i of parsed['mBallTrackingData']) {
+          times.push(i['simTime'])
         }
         // calculate minimum sim time
         let mint = Math.min(times)
         // player tracking data
-        for (let i of parsed['playertrackingdata']) {
+        for (let i of parsed['mPlayerTrackingData']) {
         // initialize players
           let player = {}
-          player['playerid'] = i['playerid']
+          player['playerId'] = i['playerId']
           // initialize tracking
           let tracking = []
-          for (let m of i['playertracking']) {
+          for (let m of i['playerTracking']) {
           // # initialize point
             let loc = {}
             // calculate locations
-            loc['x'] = -(m['leftshoulder'].x + m['rightshoulder'].x + m['back'].x) / 3 / 91.44
-            loc['y'] = (m['leftshoulder'].y + m['rightshoulder'].y + m['back'].y) / 3 / 91.44
-            loc['dir'] = this.orientation(m['leftshoulder'].x, m['leftshoulder'].y,
-              m['rightshoulder'].x, m['leftshoulder'].y)
-            loc['time'] = m['sim_time'] - mint
+            loc['x'] = -(m['leftShoulderLocation'].x + m['rightShoulderLocation'].x + m['backLocation'].x) / 3 / 91.44
+            loc['y'] = (m['leftShoulderLocation'].y + m['rightShoulderLocation'].y + m['backLocation'].y) / 3 / 91.44
+            loc['dir'] = this.orientation(m['leftShoulderLocation'].x, m['leftShoulderLocation'].y,
+              m['rightShoulderLocation'].x, m['rightShoulderLocation'].y)
+            loc['time'] = m['simTime'] - mint
             tracking.push(loc)
             // check if min or max exceeded
             if (loc['y'] + 5 > maxy) {
@@ -139,38 +139,38 @@ export default {
             }
           }
           // add tracking data
-          player['playertracking'] = tracking
+          player['playerTracking'] = tracking
           plist.push(player)
         }
 
         // amend large data section
-        parsed['playertrackingdata'] = plist
+        parsed['mPlayerTrackingData'] = plist
 
         // ball tracking data
         let balltrack = []
-        for (let j of parsed['balltrackingdata']) {
+        for (let j of parsed['mBallTrackingData']) {
           let ball = {}
-          ball.sim_time = j['sim_time'] - mint
-          ball.simulated_ball = {}
-          ball.simulated_ball.x = -j.simulated_ball.x / 91.44
-          ball.simulated_ball.y = j.simulated_ball.y / 91.44
-          ball.simulated_ball.z = j.simulated_ball.z / 91.44
+          ball.simTime = j['simTime'] - mint
+          ball.ballLocation = {}
+          ball.ballLocation.x = -j.ballLocation.x / 91.44
+          ball.ballLocation.y = j.ballLocation.y / 91.44
+          ball.ballLocation.z = j.ballLocation.z / 91.44
           // add to time stamp
           balltrack.push(ball)
         }
         // amend data section
-        parsed['balltrackingdata'] = balltrack
+        parsed['mBallTrackingData'] = balltrack
 
         // qb tracking data
         let qbTrack = []
-        for (let j of parsed['qbtrackingdata']) {
+        for (let j of parsed['mQBTrackingData']) {
           let qb = {}
-          qb['x'] = -j['hmd_location'].x / 91.44
-          qb['y'] = j['hmd_location'].y / 91.44
-          if (j['hmd_direction'].x < 0) {
-            qb['dir'] = Math.PI + Math.atan(j['hmd_direction'].y / j['hmd_direction'].x)
+          qb['x'] = -j['hmdLocation'].x / 91.44
+          qb['y'] = j['hmdLocation'].y / 91.44
+          if (j['hmdDirection'].x < 0) {
+            qb['dir'] = Math.PI + Math.atan(j['hmdDirection'].y / j['hmdDirection'].x)
           } else {
-            qb['dir'] = Math.atan(j['hmd_direction'].y / j['hmd_direction'].x)
+            qb['dir'] = Math.atan(j['hmdDirection'].y / j['hmdDirection'].x)
           }
           qbTrack.push(qb)
           // check if min or max exceeded
@@ -180,9 +180,9 @@ export default {
             miny = qb['y'] - 5
           }
         }
-        parsed.playresult.maxY = maxy
-        parsed.playresult.minY = miny
-        parsed['qbtrackingdata'] = qbTrack
+        parsed.playResult.maxY = maxy
+        parsed.playResult.minY = miny
+        parsed['mQBTrackingData'] = qbTrack
         parsed.name = filename
         console.log(parsed)
         this.$store.commit('updatePlay', parsed)
@@ -190,7 +190,7 @@ export default {
       }
     },
 
-    // function used to order files in case you guys want tat feature again
+    // function used to order files in case you guys want that feature again
     // orderFiles (files) {
     //   let fileHolder = []
     //   let orderedDates = []
@@ -244,14 +244,14 @@ export default {
               .then(jsonData => {
                 let routeData = jsonData
                 self.$store.commit('setRouteData', routeData)
-                console.log(routeData, 'ROUTE')
+                // console.log(routeData, 'ROUTE')
               })
             // fetch release data
             self.getRelease()
               .then(jsonData => {
                 let releaseData = jsonData
                 self.$store.commit('setReleaseData', releaseData)
-                console.log(releaseData, 'RELEASE')
+                // console.log(releaseData, 'RELEASE')
               })
           }
         }
@@ -292,7 +292,7 @@ export default {
       let routeDetail = 'http://localhost:8080/receivercalcs'
 
       // put data into format needed
-      let data = JSON.stringify(this.jsonData)
+      let data = JSON.stringify(JSON.parse(this.jsonData))
 
       // fetch route data
       return fetch(routeDetail, {
@@ -311,7 +311,7 @@ export default {
       let release = 'http://localhost:8080/release'
 
       // put data into format needed
-      let data = JSON.stringify(this.jsonData)
+      let data = JSON.stringify(JSON.parse(this.jsonData))
 
       // fetch release data
       return fetch(release, {

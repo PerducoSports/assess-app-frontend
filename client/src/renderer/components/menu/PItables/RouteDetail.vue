@@ -84,14 +84,13 @@ export default {
       let count = 0
       for (let i of offense) {
         // set init name
-        let name = 'bob'
-        if (i.route !== null) {
+        if (i.route.name !== '') {
           // set player names
-          for (let j of this.trackingData.mTeamRoster.offense) {
-            if (i.playerId === j.playerId) {
-              name = j.firstName + ' ' + j.lastName
-            }
-          }
+          // for (let j of this.trackingData.mTeamRoster.offense) {
+          //   if (i.playerId === j.playerId) {
+          //     name = j.firstName + ' ' + j.lastName
+          //   }
+          // }
           let targetReceiver = false
           // if player id is equal to that of intented receiver set targetReceiver to true
           if (i.playerId === this.routeData['Intended Receiver']) {
@@ -105,7 +104,7 @@ export default {
 
           playerInfo.push({
             value: false,
-            receiver: name,
+            receiver: i.playPos,
             route: i.route.name,
             depth: i.route.depth + ' yds',
             maxsep: (Math.max(...this.routeData.Separation[count])).toFixed(1) + ' yds',

@@ -39,12 +39,14 @@ export default {
   },
   methods: {
     setPlayers () {
-      for (let i = 0; i < this.trackingData.mTeamRoster.defense.length; i++) {
+      for (let i = 0; i < this.trackingData.mPlayerRoles.defense.length; i++) {
         this.defense.push({
           value: false,
-          position: this.trackingData.mTeamRoster.defense[i].position.name,
-          number: this.trackingData.mTeamRoster.defense[i].jersey,
-          name: this.trackingData.mTeamRoster.defense[i].firstName + ' ' + this.trackingData.mTeamRoster.defense[i].lastName
+          position: this.trackingData.mPlayerRoles.defense[i].playPos,
+          number: 0,
+          // number: this.trackingData.mTeamRoster.defense[i].jersey,
+          name: 'Default Player ' + (100 + i).toString()
+          // name: this.trackingData.mTeamRoster.defense[i].firstName + ' ' + this.trackingData.mTeamRoster.defense[i].lastName
         })
       }
     }

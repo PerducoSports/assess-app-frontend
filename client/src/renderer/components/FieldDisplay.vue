@@ -220,8 +220,6 @@ export default {
       ],
       name: i.toString()
       })
-      console.log('recX:',receiverX)
-      console.log('recY: ',receiverY)
     },
     YardMachine(){
         let yardline = this.trackingData.mBallTrackingData["0"].ballLocation.y
@@ -599,13 +597,24 @@ export default {
       this.addRoutes()
       this.receiverX = []
       this.receiverY = []
+
+      // offensive and defensive player id's
+      let oids = []
+      let dids = []
+
       for(let i = 0; i < this.trackingData.mPlayerRoles.offense.length; i++){
-        this.offJersey.push(this.trackingData.mTeamRoster.offense[i].jersey)
-        this.offPos.push(this.trackingData.mTeamRoster.offense[i].position.name)
+        this.offJersey.push(0)
+        this.offPos.push(this.trackingData.mPlayerRoles.offense[i].playPos)
+        oids.push(this.trackingData.mPlayerRoles.offense[i].playerId)
+        //this.offJersey.push(this.trackingData.mTeamRoster.offense[i].jersey)
+        //this.offPos.push(this.trackingData.mTeamRoster.offense[i].position.name)
       }
       for(let i = 0; i < this.trackingData.mPlayerRoles.defense.length; i++){
-        this.defJersey.push(this.trackingData.mTeamRoster.defense[i].jersey)
-        this.defPos.push(this.trackingData.mTeamRoster.defense[i].position.name)
+        this.defJersey.push(0)
+        this.defPos.push(this.trackingData.mPlayerRoles.defense[i].playPos)
+        dids.push(this.trackingData.mPlayerRoles.defense[i].playerId)
+        //this.defJersey.push(this.trackingData.mTeamRoster.defense[i].jersey)
+        //this.defPos.push(this.trackingData.mTeamRoster.defense[i].position.name)
       }
       
       for(var i = 0; i < this.trackingData['mBallTrackingData'].length; i++){
@@ -615,26 +624,23 @@ export default {
         this.offensePlayersy = []
         this.defensePlayersx = []
         this.defensePlayersy = []
-        
-        //populate off
-        for(let j = 0; j < this.trackingData.mPlayerRoles.offense.length; j++){
-          this.offensePlayersx.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['x'])
-          this.offensePlayersy.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['y'])
-          // handle receiver tracking
-          // if(this.receivers.includes(this.trackingData.playerroles.offense[j].playerid)){
-          //   this.receiverX.push(this.trackingData['playertrackingdata'][j]['playertracking'][i]['x'])
-          //   this.receiverY.push(this.trackingData['playertrackingdata'][j]['playertracking'][i]['y'])
-          // }
+
+        // populate offensive and defensive tracking data
+        for(let j = 0; j < this.trackingData.mPlayerTrackingData.length; j++) {
+          // if the player id is in the offensive player role
+          if (oids.includes(this.trackingData.mPlayerTrackingData[j].playerId)) {
+            // offensive players
+            this.offensePlayersx.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['x'])
+            this.offensePlayersy.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['y'])
+          } else if (dids.includes(this.trackingData.mPlayerTrackingData[j].playerId)) {
+            // defensive players
+            this.defensePlayersx.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['x'])
+            this.defensePlayersy.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['y'])
+          }
         }
-        //populate def
-        for(let j = this.trackingData.mPlayerRoles.offense.length; j <this.trackingData.mPlayerRoles.offense.length + this.trackingData.mPlayerRoles.defense.length; j++){
-          this.defensePlayersx.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['x'])
-          this.defensePlayersy.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['y'])
-        }
-        // console.log(receiverX)
-        // console.log(receiverY)
+      
+      // add information to aframes
       this.populatePlayers(i, this.offensePlayersx, this.offensePlayersy, this.defensePlayersx, this.defensePlayersy, this.offJersey, this.defJersey, this.receiverX, this.receiverY)
-      console.log('aframes:', this.aframes)
       }
     },
     addRoutes(){
@@ -735,7 +741,6 @@ export default {
   mounted () {
     //set values in store
     this.$store.commit('fieldStart')
-    console.log(this.trackingData)
     this.$store.commit('setMaxTime', this.trackingData.mBallTrackingData.length - 1)
     //check if frames have already been populated
     if(this.aframes.length < this.trackingData['mBallTrackingData'].length){

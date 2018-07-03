@@ -43,12 +43,16 @@ export default {
   },
   methods: {
     setPlayers () {
-      for (let i = 0; i < this.trackingData.mTeamRoster.offense.length; i++) {
-        this.offense.push({
-          position: this.trackingData.mTeamRoster.offense[i].position.name,
-          number: this.trackingData.mTeamRoster.offense[i].jersey,
-          name: this.trackingData.mTeamRoster.offense[i].firstName + ' ' + this.trackingData.mTeamRoster.offense[i].lastName
+      for (let i = 0; i < this.trackingData.mPlayerRoles.offense.length; i++) {
+        if (this.trackingData.mPlayerRoles.offense[i].playPos !== 'QB') {
+          this.offense.push({
+            position: this.trackingData.mPlayerRoles.offense[i].playPos,
+            number: 0,
+            // number: this.trackingData.mTeamRoster.offense[i].jersey,
+            name: 'Default Player ' + i.toString()
+            // name: this.trackingData.mTeamRoster.offense[i].firstName + ' ' + this.trackingData.mTeamRoster.offense[i].lastName
         })
+        }
       }
     }
   },

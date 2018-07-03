@@ -11,14 +11,14 @@
      <v-layout row>
        <v-radio-group row v-model="displayOptions.player.jersOrPos" :mandatory="true">
          <v-radio
-        label="Jersey"
-        value="jersey"
+        label="Position"
+        value="position"
         color="green"
       ></v-radio>
       <v-radio
-        label="Position"
+        label="Jersey"
         color="green"
-        value="position"
+        value="jersey"
       ></v-radio>
        </v-radio-group>
       </v-layout>

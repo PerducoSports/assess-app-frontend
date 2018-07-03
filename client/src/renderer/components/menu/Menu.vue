@@ -102,7 +102,7 @@ export default {
     },
     XYDirection (raw, filename) {
       let parsed = JSON.parse(raw)
-      if (parsed.mBallTrackingData['0'].ballLocation.x !== undefined) {
+      if (parsed.mBallTrackingData[0].ballLocation.x !== undefined) {
         let times = []
         let plist = []
         // initialize min and max
@@ -184,7 +184,6 @@ export default {
         parsed.mPlayResult.minY = miny
         parsed['mQBTrackingData'] = qbTrack
         parsed.name = filename
-        console.log(parsed)
         this.$store.commit('updatePlay', parsed)
         // return jsons
       }

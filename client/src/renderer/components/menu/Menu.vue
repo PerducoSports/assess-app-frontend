@@ -292,7 +292,7 @@ export default {
       let routeDetail = 'http://localhost:8080/receivercalcs'
 
       // put data into format needed
-      let data = JSON.stringify(this.jsonData)
+      let data = JSON.stringify(JSON.parse(this.jsonData))
 
       // fetch route data
       return fetch(routeDetail, {
@@ -311,7 +311,7 @@ export default {
       let release = 'http://localhost:8080/release'
 
       // put data into format needed
-      let data = JSON.stringify(this.jsonData)
+      let data = JSON.stringify(JSON.parse(this.jsonData))
 
       // fetch release data
       return fetch(release, {

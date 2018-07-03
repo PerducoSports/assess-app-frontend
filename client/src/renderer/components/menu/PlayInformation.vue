@@ -1,7 +1,7 @@
 <template>
   <v-container pt-0 mt-0>
     <h1 class="page-title">PLAY INFORMATION</h1>
-            <h1>{{trackingData.playsituation.qbteam.abbr + ' ' + trackingData.playsituation.qbteamscore + '  ' + trackingData.playsituation.opponent.abbr + ' ' + trackingData.playsituation.opponentscore + ' | Q' + trackingData.playsituation.quarter +  ' | '+down+' & '+ trackingData.playsituation.distance+ ' | ' + timeRemaining  }}</h1>
+            <h1>{{trackingData.mPlaySituation.qBTeam.abbr + ' ' + trackingData.mPlaySituation.qbTeamScore + '  ' + trackingData.mPlaySituation.opponent.abbr + ' ' + trackingData.mPlaySituation.opponentScore + ' | Q' + trackingData.mPlaySituation.quarter +  ' | '+down+' & '+ trackingData.mPlaySituation.distance+ ' | ' + timeRemaining  }}</h1>
     <v-layout row wrap>
       <v-flex xs-4 pa-4>
         <h1>Offense</h1>
@@ -59,18 +59,18 @@ export default {
     }
   },
   mounted () {
-    this.timeRemaining = this.minTommss(this.trackingData.playsituation.clock / 60)
-    console.log(this.trackingData.playsituation.clock, 'CLOCK')
-    if (this.trackingData.playsituation.down === 1) {
+    this.timeRemaining = this.minTommss(this.trackingData.mPlaySituation.clock / 60)
+    console.log(this.trackingData.mPlaySituation.clock, 'CLOCK')
+    if (this.trackingData.mPlaySituation.down === 1) {
       this.down = '1st'
     }
-    if (this.trackingData.playsituation.down === 2) {
+    if (this.trackingData.mPlaySituation.down === 2) {
       this.down = '2nd'
     }
-    if (this.trackingData.playsituation.down === 3) {
+    if (this.trackingData.mPlaySituation.down === 3) {
       this.down = '3rd'
     }
-    if (this.trackingData.playsituation.down === 4) {
+    if (this.trackingData.mPlaySituation.down === 4) {
       this.down = '4th'
     }
     console.log(this.routeData, this.releaseData, 'FROM PLAYINFO')

@@ -51,7 +51,7 @@ export default {
             // number: this.trackingData.mTeamRoster.offense[i].jersey,
             name: 'Default Player ' + i.toString()
             // name: this.trackingData.mTeamRoster.offense[i].firstName + ' ' + this.trackingData.mTeamRoster.offense[i].lastName
-        })
+          })
         }
       }
     }

@@ -37,17 +37,17 @@ export default {
       offense: [{
         position: 'QB',
         number: '00',
-        name: 'Andy McCarthy'
+        name: 'Default QB'
       }]
     }
   },
   methods: {
     setPlayers () {
-      for (let i = 0; i < this.trackingData.teamroster.offense.length; i++) {
+      for (let i = 0; i < this.trackingData.mTeamRoster.offense.length; i++) {
         this.offense.push({
-          position: this.trackingData.teamroster.offense[i].position.name,
-          number: this.trackingData.teamroster.offense[i].jersey,
-          name: this.trackingData.teamroster.offense[i].firstname + ' ' + this.trackingData.teamroster.offense[i].lastname
+          position: this.trackingData.mTeamRoster.offense[i].position.name,
+          number: this.trackingData.mTeamRoster.offense[i].jersey,
+          name: this.trackingData.mTeamRoster.offense[i].firstName + ' ' + this.trackingData.mTeamRoster.offense[i].lastName
         })
       }
     }

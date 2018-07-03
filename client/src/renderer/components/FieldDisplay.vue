@@ -735,6 +735,7 @@ export default {
   mounted () {
     //set values in store
     this.$store.commit('fieldStart')
+    console.log(this.trackingData)
     this.$store.commit('setMaxTime', this.trackingData.mBallTrackingData.length - 1)
     //check if frames have already been populated
     if(this.aframes.length < this.trackingData['mBallTrackingData'].length){
@@ -777,7 +778,7 @@ export default {
       // for deployment: this.routeData.MinY, this.routeData.MaxY
       // for testing: this.trackingData['qbtrackingdata'][this.sliderTime]['y'] -7.5,this.trackingData['qbtrackingdata'][this.sliderTime]['y'] + 20
       yaxis: {
-        range: [this.trackingData.mPlaySituation.los-60,this.trackingData.mPlaySituation.los-25],
+        range: [this.trackingData.mPlayResult.minY,this.trackingData.mPlayResult.maxY],
         showgrid: false,
         showlegend: false,
         fixedrange: true,

@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     fill () {
-      this.stats[0].val = this.sessionStats.completionpct.toFixed(1) + ' %'
+      this.stats[0].val = (100*this.sessionStats.completionpct).toFixed(1) + ' %'
       this.stats[1].val = this.sessionStats.yardsperattempt.toFixed(1) + ' yds'
       this.stats[2].val = this.sessionStats.avgairyards.toFixed(1) + ' yds'
       this.stats[3].val = this.sessionStats.avgairdistance.toFixed(1) + ' yds'

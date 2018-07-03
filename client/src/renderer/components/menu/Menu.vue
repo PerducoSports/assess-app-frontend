@@ -180,8 +180,8 @@ export default {
             miny = qb['y'] - 5
           }
         }
-        parsed.playResult.maxY = maxy
-        parsed.playResult.minY = miny
+        parsed.mPlayResult.maxY = maxy
+        parsed.mPlayResult.minY = miny
         parsed['mQBTrackingData'] = qbTrack
         parsed.name = filename
         console.log(parsed)
@@ -244,14 +244,14 @@ export default {
               .then(jsonData => {
                 let routeData = jsonData
                 self.$store.commit('setRouteData', routeData)
-                // console.log(routeData, 'ROUTE')
+                console.log(routeData, 'ROUTE')
               })
             // fetch release data
             self.getRelease()
               .then(jsonData => {
                 let releaseData = jsonData
                 self.$store.commit('setReleaseData', releaseData)
-                // console.log(releaseData, 'RELEASE')
+                console.log(releaseData, 'RELEASE')
               })
           }
         }

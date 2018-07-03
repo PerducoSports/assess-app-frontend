@@ -79,7 +79,7 @@ export default {
   methods: {
     fill () {
       let playerInfo = []
-      let offense = this.trackingData.playerroles.offense
+      let offense = this.trackingData.mPlayerRoles.offense
       // set cnt var for index reference
       let count = 0
       for (let i of offense) {
@@ -87,14 +87,14 @@ export default {
         let name = 'bob'
         if (i.route !== null) {
           // set player names
-          for (let j of this.trackingData.teamroster.offense) {
-            if (i.playerid === j.playerid) {
-              name = j.firstname + ' ' + j.lastname
+          for (let j of this.trackingData.mTeamRoster.offense) {
+            if (i.playerId === j.playerId) {
+              name = j.firstName + ' ' + j.lastName
             }
           }
           let targetReceiver = false
           // if player id is equal to that of intented receiver set targetReceiver to true
-          if (i.playerid === this.routeData['Intended Receiver']) {
+          if (i.playerId === this.routeData['Intended Receiver']) {
             targetReceiver = true
           }
           // set average seperation

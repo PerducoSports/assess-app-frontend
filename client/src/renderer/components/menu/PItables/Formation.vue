@@ -76,14 +76,14 @@ export default {
   },
   methods: {
     fill () {
-      this.play[0].offVal = this.trackingData.playsituation.offplaycall.formation.name
-      this.play[1].offVal = this.trackingData.playsituation.offplaycall.play.name
-      this.play[2].offVal = this.trackingData.playresult.playtype
-      this.play[3].offVal = this.trackingData.playsituation.offplaycall.personnel.name
+      this.play[0].offVal = this.trackingData.mPlaySituation.offPlayCall.formation.name
+      this.play[1].offVal = this.trackingData.mPlaySituation.offPlayCall.play.name
+      this.play[2].offVal = this.trackingData.mPlayResult.playType
+      this.play[3].offVal = this.trackingData.mPlaySituation.offplaycall.personnel.name
       this.play[4].offVal = this.routeData.OffensiveBasic
 
-      this.play[0].defVal = this.trackingData.playsituation.defplaycall.play.name
-      this.play[1].defVal = this.trackingData.playsituation.defplaycall.personnel.name
+      this.play[0].defVal = this.trackingData.mPlaySituation.defPlayCall.play.name
+      this.play[1].defVal = this.trackingData.mPlaySituation.defPlayCall.personnel.name
       this.play[2].defVal = this.routeData.DefensiveBasic
     }
   },

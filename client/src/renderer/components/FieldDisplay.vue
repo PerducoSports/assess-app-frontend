@@ -95,18 +95,18 @@ export default {
       let fbyfx = []
       let fbyfy = []
       // initial starting point for window
-      fbyfx.push(this.trackingData['qbtrackingdata'][i]['x'])
-      fbyfy.push(this.trackingData['qbtrackingdata'][i]['y'])
+      fbyfx.push(this.trackingData['mQBTrackingData'][i]['x'])
+      fbyfy.push(this.trackingData['mQBTrackingData'][i]['y'])
       // loop through x and y points for qb window
       for (var deg = -vwid/2; deg <= vwid/2; deg += 2 ) {
         // add to x coordinates
-        fbyfx.push(this.trackingData['qbtrackingdata'][i]['x'] + wdep * Math.sin(this.trackingData['qbtrackingdata'][i]['dir'] - Math.PI / 2 + (deg * Math.PI / 180)))
+        fbyfx.push(this.trackingData['mQBTrackingData'][i]['x'] + wdep * Math.sin(this.trackingData['mQBTrackingData'][i]['dir'] - Math.PI / 2 + (deg * Math.PI / 180)))
         // add to y coordinates
-        fbyfy.push(this.trackingData['qbtrackingdata'][i]['y'] + wdep * Math.cos(this.trackingData['qbtrackingdata'][i]['dir'] - Math.PI / 2 + (deg * Math.PI / 180)))
+        fbyfy.push(this.trackingData['mQBTrackingData'][i]['y'] + wdep * Math.cos(this.trackingData['mQBTrackingData'][i]['dir'] - Math.PI / 2 + (deg * Math.PI / 180)))
       }
       // final ending point for window
-      fbyfx.push(this.trackingData['qbtrackingdata'][i]['x'])
-      fbyfy.push(this.trackingData['qbtrackingdata'][i]['y'])
+      fbyfx.push(this.trackingData['mQBTrackingData'][i]['x'])
+      fbyfy.push(this.trackingData['mQBTrackingData'][i]['y'])
       // add to overall qb viewer array
       this.qbvx.push(fbyfx)
       this.qbvy.push(fbyfy)
@@ -138,8 +138,8 @@ export default {
         {mode: 'markers+text',
         name: 'QB',
         hoverinfo: 'none',
-        x: [this.trackingData['qbtrackingdata'][i]['x']],
-        y: [this.trackingData['qbtrackingdata'][i]['y']],
+        x: [this.trackingData['mQBTrackingData'][i]['x']],
+        y: [this.trackingData['mQBTrackingData'][i]['y']],
         text: 'QB',
         marker: {
           color: 'cyan',
@@ -182,8 +182,8 @@ export default {
         mode: 'markers+text',
           name: 'Ball',
           hoverinfo: 'none',
-          x: [this.trackingData['balltrackingdata'][i]['simulated_ball'].x],
-          y: [this.trackingData['balltrackingdata'][i]['simulated_ball'].y],
+          x: [this.trackingData['mBallTrackingData'][i]['ballLocation'].x],
+          y: [this.trackingData['mBallTrackingData'][i]['ballLocation'].y],
           marker: {
             color: 'yellow',
             size: 14
@@ -224,8 +224,8 @@ export default {
       console.log('recY: ',receiverY)
     },
     YardMachine(){
-        let yardline = this.trackingData.balltrackingdata["0"].simulated_ball.y
-        let firstDown = this.trackingData.balltrackingdata["0"].simulated_ball.y + this.trackingData.playsituation.distance
+        let yardline = this.trackingData.mBallTrackingData["0"].ballLocation.y
+        let firstDown = this.trackingData.mBallTrackingData["0"].ballLocation.y + this.trackingData.mPlaySituation.distance
         this.masterShapeHolder.push({
         // sides
               type: 'rect',
@@ -599,16 +599,16 @@ export default {
       this.addRoutes()
       this.receiverX = []
       this.receiverY = []
-      for(let i = 0; i < this.trackingData.playerroles.offense.length; i++){
-        this.offJersey.push(this.trackingData.teamroster.offense[i].jersey)
-        this.offPos.push(this.trackingData.teamroster.offense[i].position.name)
+      for(let i = 0; i < this.trackingData.mPlayerRoles.offense.length; i++){
+        this.offJersey.push(this.trackingData.mTeamRoster.offense[i].jersey)
+        this.offPos.push(this.trackingData.mTeamRoster.offense[i].position.name)
       }
-      for(let i = 0; i < this.trackingData.playerroles.defense.length; i++){
-        this.defJersey.push(this.trackingData.teamroster.defense[i].jersey)
-        this.defPos.push(this.trackingData.teamroster.defense[i].position.name)
+      for(let i = 0; i < this.trackingData.mPlayerRoles.defense.length; i++){
+        this.defJersey.push(this.trackingData.mTeamRoster.defense[i].jersey)
+        this.defPos.push(this.trackingData.mTeamRoster.defense[i].position.name)
       }
       
-      for(var i = 0; i < this.trackingData['balltrackingdata'].length; i++){
+      for(var i = 0; i < this.trackingData['mBallTrackingData'].length; i++){
         
         //init arrs
         this.offensePlayersx = []
@@ -617,9 +617,9 @@ export default {
         this.defensePlayersy = []
         
         //populate off
-        for(let j = 0; j < this.trackingData.playerroles.offense.length; j++){
-          this.offensePlayersx.push(this.trackingData['playertrackingdata'][j]['playertracking'][i]['x'])
-          this.offensePlayersy.push(this.trackingData['playertrackingdata'][j]['playertracking'][i]['y'])
+        for(let j = 0; j < this.trackingData.mPlayerRoles.offense.length; j++){
+          this.offensePlayersx.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['x'])
+          this.offensePlayersy.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['y'])
           // handle receiver tracking
           // if(this.receivers.includes(this.trackingData.playerroles.offense[j].playerid)){
           //   this.receiverX.push(this.trackingData['playertrackingdata'][j]['playertracking'][i]['x'])
@@ -627,11 +627,11 @@ export default {
           // }
         }
         //populate def
-        for(let j = this.trackingData.playerroles.offense.length; j <this.trackingData.playerroles.offense.length + this.trackingData.playerroles.defense.length; j++){
-          this.defensePlayersx.push(this.trackingData['playertrackingdata'][j]['playertracking'][i]['x'])
-          this.defensePlayersy.push(this.trackingData['playertrackingdata'][j]['playertracking'][i]['y'])
+        for(let j = this.trackingData.mPlayerRoles.offense.length; j <this.trackingData.mPlayerRoles.offense.length + this.trackingData.mPlayerRoles.defense.length; j++){
+          this.defensePlayersx.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['x'])
+          this.defensePlayersy.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['y'])
         }
-        // console.log(receiverX)g
+        // console.log(receiverX)
         // console.log(receiverY)
       this.populatePlayers(i, this.offensePlayersx, this.offensePlayersy, this.defensePlayersx, this.defensePlayersy, this.offJersey, this.defJersey, this.receiverX, this.receiverY)
       console.log('aframes:', this.aframes)
@@ -642,9 +642,9 @@ export default {
       this.receivers = []
 
       //get receiver Ids
-      for(let i of this.trackingData.playerroles.offense){
+      for(let i of this.trackingData.mPlayerRoles.offense){
         if(i.route !== null){
-          this.receivers.push(i.playerid)
+          this.receivers.push(i.playerId)
         }
       }
       
@@ -735,9 +735,9 @@ export default {
   mounted () {
     //set values in store
     this.$store.commit('fieldStart')
-    this.$store.commit('setMaxTime', this.trackingData.balltrackingdata.length - 1)
+    this.$store.commit('setMaxTime', this.trackingData.mBallTrackingData.length - 1)
     //check if frames have already been populated
-    if(this.aframes.length < this.trackingData['balltrackingdata'].length){
+    if(this.aframes.length < this.trackingData['mBallTrackingData'].length){
     this.setPlayers()
   }
     // ===================================
@@ -777,7 +777,7 @@ export default {
       // for deployment: this.routeData.MinY, this.routeData.MaxY
       // for testing: this.trackingData['qbtrackingdata'][this.sliderTime]['y'] -7.5,this.trackingData['qbtrackingdata'][this.sliderTime]['y'] + 20
       yaxis: {
-        range: [this.trackingData.playresult.minY,this.trackingData.playresult.maxY],
+        range: [this.trackingData.mPlaySituation.los-60,this.trackingData.mPlaySituation.los-25],
         showgrid: false,
         showlegend: false,
         fixedrange: true,

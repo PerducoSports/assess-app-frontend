@@ -694,11 +694,11 @@ export default {
       }
       //handle jerseys & Position
       if(val.player.jersOrPos === 'jersey'){
-        Plotly.restyle('plotter', {text: [this.offJersey]}, 1)
-        Plotly.restyle('plotter', {text: [this.defJersey]}, 2)
-      } else if(val.player.jersOrPos === 'position'){
         Plotly.restyle('plotter', {text: [this.offPos]}, 1)
-         Plotly.restyle('plotter', {text: [this.defPos]}, 2)
+        Plotly.restyle('plotter', {text: [this.defPos]}, 2)
+      } else if(val.player.jersOrPos === 'position'){
+        Plotly.restyle('plotter', {text: [this.offJersey]}, 1)
+         Plotly.restyle('plotter', {text: [this.defJersey]}, 2)
       }
       // qb view switch
       if(val.field.qbView === false){

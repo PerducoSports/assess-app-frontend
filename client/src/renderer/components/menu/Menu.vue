@@ -106,8 +106,8 @@ export default {
         let times = []
         let plist = []
         // initialize min and max
-        let miny = parsed.mPlaySituation.los-50
-        let maxy = parsed.mPlaySituation.los-50
+        let miny = parsed.mPlaySituation.los - 50
+        let maxy = parsed.mPlaySituation.los - 50
         // add sim times
         for (let i of parsed['mBallTrackingData']) {
           times.push(i['simTime'])
@@ -292,7 +292,7 @@ export default {
       let routeDetail = 'http://localhost:8080/receivercalcs'
 
       // put data into format needed
-      let data = JSON.stringify(JSON.parse(this.jsonData))
+      let data = JSON.stringify(this.jsonData)
 
       // fetch route data
       return fetch(routeDetail, {
@@ -311,7 +311,7 @@ export default {
       let release = 'http://localhost:8080/release'
 
       // put data into format needed
-      let data = JSON.stringify(JSON.parse(this.jsonData))
+      let data = JSON.stringify(this.jsonData)
 
       // fetch release data
       return fetch(release, {

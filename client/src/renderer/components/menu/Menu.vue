@@ -15,7 +15,7 @@
               <v-list-tile  class="menu-item">
                 <form enctype="multiple/form-data">
                       <input class="inputfile" type="file" multiple @change="loadFiles" id="selectFiles">
-                      Choose Folder
+                      Choose Session
                 </form>
                 <br>
                 <br>
@@ -145,6 +145,146 @@ export default {
 
         // amend large data section
         parsed['mPlayerTrackingData'] = plist
+        // initialize pff positions
+        parsed['pffpos'] = {X: {}, Y: {}, Z: {}, F: {}, H: {}}
+
+        // initialize receiver positions
+        for (let i = 0; i < parsed.mPlayerRoles.offense.length; i++) {
+          // get receiver locations for pff designations
+          if (['X', 'Y', 'Z', 'F', 'H'].includes(parsed.mPlayerRoles.offense[i].playPos)) {
+            for (let j = 0; j < parsed.mPlayerTrackingData.length; j++) {
+              if (parsed.mPlayerRoles.offense[i].playerId === parsed.mPlayerTrackingData[j].playerId) {
+                parsed['pffpos'][parsed.mPlayerRoles.offense[i].playPos].x = parsed.mPlayerTrackingData[j].playerTracking[0].x
+                parsed['pffpos'][parsed.mPlayerRoles.offense[i].playPos].y = parsed.mPlayerTrackingData[j].playerTracking[0].y - parsed.mPlaySituation.los + 50
+                parsed['pffpos'][parsed.mPlayerRoles.offense[i].playPos].pff = ''
+              }
+            }
+          }
+        }
+
+        // determine pff receiver designations
+        for (let i in parsed['pffpos']) {
+          // determine "base" position
+          if (parsed['pffpos'][i].y < -2.5) {
+            parsed['pffpos'][i].pff = 'HB'
+          } else if (parsed['pffpos'][i].x > 0) {
+            // right tight ends and receivers
+            if (parsed['pffpos'][i].x < 6.5) {
+              parsed['pffpos'][i].pff = 'TE-R'
+              for (let j in parsed['pffpos']) {
+                if (j !== i) {
+                  if (parsed['pffpos'][j].x > 0 && parsed['pffpos'][j].x < 9) {
+                    parsed['pffpos'][i].pff = 'TE-iR'
+                  }
+                }
+              }
+            } else if (parsed['pffpos'][i].x < 9) {
+              // look for inside TE
+              let ite = false
+              // count players outside
+              let owr = 0
+              for (let j in parsed['pffpos']) {
+                if (parsed['pffpos'][j].x > 0 && parsed['pffpos'][j].x < 6.5) {
+                  ite = true
+                } else if (parsed['pffpos'][j].x > 0 && parsed['pffpos'][j].x > parsed['pffpos'][i].x) {
+                  owr++
+                }
+              }
+              if (ite) {
+                parsed['pffpos'][i].pff = 'TE-oR'
+              } else {
+                if (owr === 0) {
+                  parsed['pffpos'][i].pff = 'RWR'
+                } else if (owr === 1) {
+                  parsed['pffpos'][i].pff = 'SRWR'
+                } else if (owr > 1) {
+                  parsed['pffpos'][i].pff = 'SRiWR'
+                }
+              }
+            } else {
+              // count inside and outside receivers
+              let iwr = 0
+              let owr = 0
+              for (let j in parsed['pffpos']) {
+                if (parsed['pffpos'][j].x > 0 && parsed['pffpos'][j].x > parsed['pffpos'][i].x) {
+                  owr++
+                } else if (parsed['pffpos'][j].x > 6.5 && parsed['pffpos'][j].x < parsed['pffpos'][i].x) {
+                  iwr++
+                }
+              }
+              // determine designation
+              if (owr === 0) {
+                parsed['pffpos'][i].pff = 'RWR'
+              } else if (owr === 1 && iwr === 0) {
+                parsed['pffpos'][i].pff = 'SRWR'
+              } else if (owr === 1 && iwr > 0) {
+                parsed['pffpos'][i].pff = 'SRoWR'
+              } else if (owr > 1 && iwr === 0) {
+                parsed['pffpos'][i].pff = 'SRiWR'
+              } else if (owr === 2 && iwr === 1) {
+                parsed['pffpos'][i].pff = 'SRWR'
+              }
+            }
+          } else {
+            // right tight ends and receivers
+            if (parsed['pffpos'][i].x > -6.5) {
+              parsed['pffpos'][i].pff = 'TE-L'
+              for (let j in parsed['pffpos']) {
+                if (j !== i) {
+                  if (parsed['pffpos'][j].x < 0 && parsed['pffpos'][j].x > -9) {
+                    parsed['pffpos'][i].pff = 'TE-iL'
+                  }
+                }
+              }
+            } else if (parsed['pffpos'][i].x > -9) {
+              // look for inside TE
+              let ite = false
+              // count players outside
+              let owr = 0
+              for (let j in parsed['pffpos']) {
+                if (parsed['pffpos'][j].x < 0 && parsed['pffpos'][j].x > -6.5) {
+                  ite = true
+                } else if (parsed['pffpos'][j].x < 0 && parsed['pffpos'][j].x < parsed['pffpos'][i].x) {
+                  owr++
+                }
+              }
+              if (ite) {
+                parsed['pffpos'][i].pff = 'TE-oL'
+              } else {
+                if (owr === 0) {
+                  parsed['pffpos'][i].pff = 'LWR'
+                } else if (owr === 1) {
+                  parsed['pffpos'][i].pff = 'SLWR'
+                } else if (owr > 1) {
+                  parsed['pffpos'][i].pff = 'SLiWR'
+                }
+              }
+            } else {
+              // count inside and outside receivers
+              let iwr = 0
+              let owr = 0
+              for (let j in parsed['pffpos']) {
+                if (parsed['pffpos'][j].x < 0 && parsed['pffpos'][j].x < parsed['pffpos'][i].x) {
+                  owr++
+                } else if (parsed['pffpos'][j].x < -6.5 && parsed['pffpos'][j].x > parsed['pffpos'][i].x) {
+                  iwr++
+                }
+              }
+              // determine designation
+              if (owr === 0) {
+                parsed['pffpos'][i].pff = 'LWR'
+              } else if (owr === 1 && iwr === 0) {
+                parsed['pffpos'][i].pff = 'SLWR'
+              } else if (owr === 1 && iwr > 0) {
+                parsed['pffpos'][i].pff = 'SLoWR'
+              } else if (owr > 1 && iwr === 0) {
+                parsed['pffpos'][i].pff = 'SLiWR'
+              } else if (owr === 2 && iwr === 1) {
+                parsed['pffpos'][i].pff = 'SLWR'
+              }
+            }
+          }
+        }
 
         // ball tracking data
         let balltrack = []
@@ -243,14 +383,14 @@ export default {
               .then(jsonData => {
                 let routeData = jsonData
                 self.$store.commit('setRouteData', routeData)
-                console.log(routeData, 'ROUTE')
+                // console.log(routeData, 'ROUTE')
               })
             // fetch release data
             self.getRelease()
               .then(jsonData => {
                 let releaseData = jsonData
                 self.$store.commit('setReleaseData', releaseData)
-                console.log(releaseData, 'RELEASE')
+                // console.log(releaseData, 'RELEASE')
               })
           }
         }
@@ -347,7 +487,7 @@ export default {
           .then(jsonData => {
             let sessionStats = jsonData
             this.$store.commit('setSessionStats', sessionStats)
-            console.log('SESSION STATS', sessionStats)
+            // console.log('SESSION STATS', sessionStats)
           })
       } else {
         // if fileAPI isnt supported, alert

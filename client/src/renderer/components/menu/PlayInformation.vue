@@ -4,21 +4,23 @@
             <h1>{{trackingData.mPlaySituation.qBTeam.abbr + ' ' + trackingData.mPlaySituation.qbTeamScore + '  ' + trackingData.mPlaySituation.opponent.abbr + ' ' + trackingData.mPlaySituation.opponentScore + ' | Q' + trackingData.mPlaySituation.quarter +  ' | '+down+' & '+ trackingData.mPlaySituation.distance+ ' | ' + timeRemaining  }}</h1>
     <v-layout row wrap>
       <v-flex xs-4 pa-4>
+      <h1>Route Detail</h1>
+        <routeDetail></routeDetail>
+      </v-flex>
+      <v-flex xs-4 pa-4>
+      <h1>Play Detail</h1>
+        <Formation></Formation>
+      </v-flex>
+    </v-layout>
+    <v-layout row-wrap>
+      <v-flex xs-4 pa-4>
         <h1>Offense</h1>
         <Offense></Offense>
       </v-flex>
       <v-flex xs-4 pa-4>
         <h1>Defense</h1>
       <Defense></Defense>
-    </v-flex>
-      <v-flex xs-4 pa-4>
-      <h1>Play Detail</h1>
-        <Formation></Formation>
-      </v-flex>
-      <v-flex xs-4 pa-4>
-      <h1>Route Detail</h1>
-        <routeDetail></routeDetail>
-      </v-flex>
+    </v-flex>     
     </v-layout>
   </v-container>
 </template>

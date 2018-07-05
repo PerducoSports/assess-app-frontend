@@ -43,10 +43,17 @@ export default {
   },
   methods: {
     setPlayers () {
+      let posit = ''
       for (let i = 0; i < this.trackingData.mPlayerRoles.offense.length; i++) {
         if (this.trackingData.mPlayerRoles.offense[i].playPos !== 'QB') {
+          // determine position
+          if (['X', 'Y', 'Z', 'F', 'H'].includes(this.trackingData.mPlayerRoles.offense[i].playPos)) {
+            posit = this.trackingData.pffpos[this.trackingData.mPlayerRoles.offense[i].playPos].pff
+          } else {
+            posit = this.trackingData.mPlayerRoles.offense[i].playPos
+          }
           this.offense.push({
-            position: this.trackingData.mPlayerRoles.offense[i].playPos,
+            position: posit,
             number: 0,
             // number: this.trackingData.mTeamRoster.offense[i].jersey,
             name: 'Default Player ' + i.toString()

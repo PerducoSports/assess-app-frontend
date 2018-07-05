@@ -104,7 +104,7 @@ export default {
 
           playerInfo.push({
             value: false,
-            receiver: i.playPos,
+            receiver: this.trackingData.pffpos[i.playPos].pff,
             route: i.route.name,
             depth: i.route.depth + ' yds',
             maxsep: (Math.max(...this.routeData.Separation[count])).toFixed(1) + ' yds',

@@ -89,7 +89,7 @@ export default {
       let self = this
       // depth of window
       let wdep = 6
-      // width of viewer
+      // width of viewer (in degrees)
       let vwid = 110
       // initialize frame-by-frame windows
       let fbyfx = []
@@ -594,27 +594,23 @@ export default {
       this.defJersey = []
       this.offPos = []
       this.defPos = []
+      this.offRec = []
+      this.defRec = []
       this.addRoutes()
       this.receiverX = []
       this.receiverY = []
-
+      
       // offensive and defensive player id's
       let oids = []
       let dids = []
 
+      // initialize receiver positions
       for(let i = 0; i < this.trackingData.mPlayerRoles.offense.length; i++){
-        this.offJersey.push(0)
-        this.offPos.push(this.trackingData.mPlayerRoles.offense[i].playPos)
         oids.push(this.trackingData.mPlayerRoles.offense[i].playerId)
-        //this.offJersey.push(this.trackingData.mTeamRoster.offense[i].jersey)
-        //this.offPos.push(this.trackingData.mTeamRoster.offense[i].position.name)
       }
+
       for(let i = 0; i < this.trackingData.mPlayerRoles.defense.length; i++){
-        this.defJersey.push(0)
-        this.defPos.push(this.trackingData.mPlayerRoles.defense[i].playPos)
         dids.push(this.trackingData.mPlayerRoles.defense[i].playerId)
-        //this.defJersey.push(this.trackingData.mTeamRoster.defense[i].jersey)
-        //this.defPos.push(this.trackingData.mTeamRoster.defense[i].position.name)
       }
       
       for(var i = 0; i < this.trackingData['mBallTrackingData'].length; i++){
@@ -632,10 +628,40 @@ export default {
             // offensive players
             this.offensePlayersx.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['x'])
             this.offensePlayersy.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['y'])
+            if (i == 0) {
+              // first time through, assign numbers and positions
+              for (let k = 0; k < this.trackingData.mPlayerRoles.offense.length; k++) {
+                // match by playerId
+                if (this.trackingData.mPlayerRoles.offense[k].playerId == this.trackingData.mPlayerTrackingData[j].playerId) {
+                  // jersey and position
+                  this.offJersey.push(0)
+                  this.offPos.push(this.trackingData.mPlayerRoles.offense[k].playPos)
+                  // pff receiver designation
+                  if (['X','Y','Z','F','H'].includes(this.trackingData.mPlayerRoles.offense[k].playPos)) {
+                    // assign PFF receiver designation
+                    this.offRec.push(this.trackingData.pffpos[this.trackingData.mPlayerRoles.offense[k].playPos].pff)
+                  } else {
+                    this.offRec.push('')
+                  }
+                }
+              }
+            }
           } else if (dids.includes(this.trackingData.mPlayerTrackingData[j].playerId)) {
             // defensive players
             this.defensePlayersx.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['x'])
             this.defensePlayersy.push(this.trackingData['mPlayerTrackingData'][j]['playerTracking'][i]['y'])
+            if (i == 0) {
+              // first time through, assign numbers and positions
+              for (let k = 0; k < this.trackingData.mPlayerRoles.defense.length; k++) {
+                // match by playerId
+                if (this.trackingData.mPlayerRoles.defense[k].playerId == this.trackingData.mPlayerTrackingData[j].playerId) {
+                  // jersey and position
+                  this.defJersey.push(0)
+                  this.defPos.push(this.trackingData.mPlayerRoles.defense[k].playPos)
+                  this.defRec.push('')
+                }
+              }
+            }
           }
         }
       
@@ -693,10 +719,13 @@ export default {
         Plotly.restyle('plotter', show, 2)
       }
       //handle jerseys & Position
-      if(val.player.jersOrPos === 'jersey'){
+      if(val.player.jersOrPos === 'position'){
         Plotly.restyle('plotter', {text: [this.offPos]}, 1)
         Plotly.restyle('plotter', {text: [this.defPos]}, 2)
-      } else if(val.player.jersOrPos === 'position'){
+      } else if(val.player.jersOrPos === 'jersey'){
+        Plotly.restyle('plotter', {text: [this.offRec]}, 1)
+         Plotly.restyle('plotter', {text: [this.defRec]}, 2)
+      } else if(val.player.jersOrPos === 'recs'){
         Plotly.restyle('plotter', {text: [this.offJersey]}, 1)
          Plotly.restyle('plotter', {text: [this.defJersey]}, 2)
       }

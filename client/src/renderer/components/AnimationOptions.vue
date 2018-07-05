@@ -9,16 +9,23 @@
      <v-divider></v-divider>
      <v-flex offset-xs1>
      <v-layout row>
-       <v-radio-group row v-model="displayOptions.player.jersOrPos" :mandatory="true">
+       <v-radio-group v-model="displayOptions.player.jersOrPos" :mandatory="true">
          <v-radio
-        label="Jersey"
+        label="Position"
         value="position"
         color="green"
       ></v-radio>
+      <br>
       <v-radio
-        label="Position"
+        label="Receivers"
         color="green"
         value="jersey"
+      ></v-radio>
+      <br>
+      <v-radio
+        label="Jersey"
+        color="green"
+        value="recs"
       ></v-radio>
        </v-radio-group>
       </v-layout>

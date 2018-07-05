@@ -222,8 +222,8 @@ export default {
       })
     },
     YardMachine(){
-        let yardline = this.trackingData.mBallTrackingData["0"].ballLocation.y
-        let firstDown = this.trackingData.mBallTrackingData["0"].ballLocation.y + this.trackingData.mPlaySituation.distance
+        let yardline = this.trackingData.mPlaySituation.los - 50
+        let firstDown = this.trackingData.mPlaySituation.los - 50 + this.trackingData.mPlaySituation.distance
         this.masterShapeHolder.push({
         // sides
               type: 'rect',

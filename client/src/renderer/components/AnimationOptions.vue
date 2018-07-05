@@ -1,5 +1,5 @@
 <template>
-    <v-container width="50px" height="200px">
+    <v-container width="50px">
      <v-flex offset-xs1 >
     <v-layout row>
             <v-switch color='green' label="Offense" v-model="displayOptions.player.off"></v-switch>
